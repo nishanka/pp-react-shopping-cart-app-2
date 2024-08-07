@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { auth } from '../Firebase';
+import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-// import { useNavigate } from 'react-router-dom';
+import Card from './UI/Card';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Signin = () => {
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -12,33 +13,44 @@ const Signin = () => {
     e.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((useCredential) => {
+        const userDetails = { email };
+        localStorage.setItem('userData', JSON.stringify(userDetails));
+
         console.log(useCredential);
-        alert(`signin successful ${email}`);
+
+        navigate('/products');
+
+        console.log(`signin successful ${email}`);
       })
       .catch((err) => {
         console.log(err);
         alert('Account doesnot exist, please create an account');
       });
   };
+
   return (
-    <div className='container'>
-      <h1>Login</h1>
-      <input
-        type='email'
-        placeholder='Enter Your Email'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type='password'
-        placeholder='Enter Your Password'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button className='btn btn-primary' onClick={signin}>
-        Sign In
-      </button>
-    </div>
+    <Card className='login' title='Sign In'>
+      <form>
+        <input
+          className='form-control mb-2'
+          type='email'
+          placeholder='Enter Your Email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          className='form-control mb-2'
+          type='password'
+          placeholder='Enter Your Password'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button className='btn btn-primary m-3' onClick={signin}>
+          Login
+        </button>
+      </form>
+      <Link to='/'>Back to Home</Link>
+    </Card>
   );
 };
 

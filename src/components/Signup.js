@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { auth } from '../Firebase';
+import { auth } from '../firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import Card from './UI/Card';
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -20,26 +22,28 @@ const Signup = () => {
   };
 
   return (
-    <div>
+    <Card className='login' title='Sign Up'>
       <form>
-        <h1>Sign Up</h1>
         <input
+          className='form-control mb-2'
           type='email'
           placeholder='Enter Your Email'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+          className='form-control mb-2'
           type='password'
           placeholder='Enter Your Password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className='btn btn-danger' onClick={signup}>
+        <button className='btn btn-primary m-3' onClick={signup}>
           Signup
         </button>
       </form>
-    </div>
+      <Link to='/'>Back to Home</Link>
+    </Card>
   );
 };
 
