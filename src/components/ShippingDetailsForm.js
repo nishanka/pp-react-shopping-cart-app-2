@@ -2,51 +2,16 @@ import React, { useEffect, useState } from 'react';
 import classes from './styles/ShippingDetailsForm.module.css';
 import { useNavigate } from 'react-router-dom';
 
-// Get User Email
-const userData = localStorage.getItem('userData');
-const userObject = JSON.parse(userData);
-const userEmail = userObject.email;
-
 const ShippingDetailsForm = () => {
-  const storedCustomerData = localStorage.getItem('shippingData');
-  const customer = JSON.parse(storedCustomerData);
-  let currentCustomerData;
-
-  if (Object.keys(customer).length > 0) {
-    currentCustomerData = {
-      firstName: customer.firstName,
-      lastName: customer.lastName,
-      addressLine1: customer.addressLine1,
-      addressLine2: customer.addressLine2,
-      city: customer.city,
-      country: customer.country,
-      email: customer.email,
-      telephone: customer.telephone,
-      confirmDetails: customer.confirmDetails,
-    };
-  } else {
-    currentCustomerData = {
-      firstName: '',
-      lastName: '',
-      addressLine1: '',
-      addressLine2: '',
-      city: '',
-      country: '',
-      email: userEmail,
-      telephone: '',
-      confirmDetails: '',
-    };
-  }
-
   const [errMessage, setErrMessage] = useState('');
   const navigate = useNavigate();
-  const [shippingData, setShippingData] = useState(currentCustomerData);
+  const [shippingData, setShippingData] = useState({});
 
   useEffect(() => {
     localStorage.setItem('shippingData', JSON.stringify(shippingData));
   }, [shippingData]);
 
-  console.log(currentCustomerData.firstName);
+  // console.log(currentCustomerData.firstName);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -63,7 +63,16 @@ const cartSlice = createSlice({
       );
       state.totalQuantity--;
       state.total -= removedItem.price;
-      if (existingItem.quantity === 1) {
+      if (existingItem.quantity === 1 && state.totalQuantity === 0) {
+        state.itemList = state.itemList.filter(
+          (item) => item.id !== removedItem.id
+        );
+        setCartListFunc(
+          (state.itemList = []),
+          (state.total = 0),
+          (state.totalQuantity = 0)
+        );
+      } else if (existingItem.quantity === 1) {
         state.itemList = state.itemList.filter(
           (item) => item.id !== removedItem.id
         );

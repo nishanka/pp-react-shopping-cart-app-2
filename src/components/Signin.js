@@ -8,6 +8,7 @@ const Signin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
   const signin = (e) => {
     e.preventDefault();
@@ -15,16 +16,32 @@ const Signin = () => {
       .then((useCredential) => {
         const userDetails = { email };
         localStorage.setItem('userData', JSON.stringify(userDetails));
-
-        console.log(useCredential);
-
+        // console.log(useCredential);
         navigate('/products');
-
-        console.log(`signin successful ${email}`);
       })
       .catch((err) => {
-        console.log(err);
-        alert('Account doesnot exist, please create an account');
+        // console.log(err);
+        // alert('Account doesnot exist, please create an account');
+        switch (err.code) {
+          case 'auth/invalid-credential':
+            // alert('Email already in use !');
+            setErrorMsg('Sorry! Your credentials are Invalid.');
+            break;
+          case 'auth/invalid-email':
+            setErrorMsg('Please enter a valid email');
+            break;
+          case 'auth/missing-password':
+            setErrorMsg('Password is missing!');
+            break;
+          case 'auth/too-many-requests':
+            setErrorMsg(
+              'Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later.'
+            );
+            break;
+          default:
+            // alert('Please enter the email and password');
+            setErrorMsg('Please enter a valid email and password');
+        }
       });
   };
 
@@ -45,6 +62,7 @@ const Signin = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {errorMsg && <p className='text-danger mb-0 fw-bold'>{errorMsg}</p>}
         <button className='btn btn-primary m-3' onClick={signin}>
           Login
         </button>

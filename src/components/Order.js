@@ -91,12 +91,12 @@ const Order = () => {
             <div className='customer-email'>{customer.email}</div>
             <div className='customer-telephone'>{customer.telephone}</div>
           </div>
-          <button
+          {/* <button
             className='btn btn-secondary btn-sm me-2 mt-2'
             onClick={() => navigate('/shipping-details')}
           >
             Edit Shipping Details
-          </button>
+          </button> */}
         </div>
         {items.length !== 0 && (
           <div className='cart-footer d-flex justify-content-end'>
